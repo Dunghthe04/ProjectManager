@@ -1,33 +1,12 @@
 const Products = require('../../models/product.model');
+const filterStatusHelper=require("../../helpers/filter_Status");
 // [GET] /admin/products
 module.exports.index = async (req, res) => {
-    let filterStatus = [{
-            name: "Tất Cả",
-            status: "",
-            class: ""
-        },
-        {
-            name: "Hoạt động",
-            status: "active",
-            class: ""
-        },
-        {
-            name: "Ngừng hoạt động",
-            status: "deactive",
-            class: ""
-        }
-    ];
+    
+    //bộ lọc nút
+    const filterStatus=filterStatusHelper(req.query);
 
-    //xử lý backend, lấy querystatus trên url -> check xem nút nào có status giống => thêm class active(xanh nút), nếu ko có -> 
-    if (req.query.status) {
-        const index = filterStatus.findIndex(item => item.status == req.query.status);
-        filterStatus[index].class = "active";
-    } else {
-        const index = filterStatus.findIndex(item => item.status == "");// nếu k mặc định thằng đầu xanh
-        console.log(index);
-        
-        filterStatus[index].class = "active";
-    }
+    //
     let find = {
         deleted: false
     }
