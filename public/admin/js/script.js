@@ -37,3 +37,17 @@ if (formSearch) {
       window.location.href=url.href;
    })
 }
+//pagination
+const buttonPage=document.querySelectorAll("[button-pagination]");
+console.log(buttonPage);
+if(buttonPage.length>0){
+   let url=new URL(window.location.href);
+   buttonPage.forEach(button => {
+      button.addEventListener("click",()=>{
+         //lấy ra tranng=gtri button
+         const page=button.getAttribute("button-pagination");
+         url.searchParams.set("page",page);
+         window.location.href=url.href;
+      })
+   })
+}
