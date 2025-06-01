@@ -1,6 +1,7 @@
 const Products = require('../../models/product.model');
 const filterStatusHelper = require("../../helpers/filter_Status");
 const objectHelper=require("../../helpers/searchForm.js")
+const paginationHelper=require("../../helpers/pagination.js")
 // [GET] /admin/products
 module.exports.index = async (req, res) => {
 
@@ -25,19 +26,17 @@ module.exports.index = async (req, res) => {
         currentPage:1,// mặc định trang htai là 1 
         limit:4//giới hạn 4 ptu 1 trang
     }
-
-    //nếu trên url có param page -> thêm 1 key current page vào, value là trang htai
-   if(req.query.page){
-     const currentPage=parseInt(req.query.page);
-     pagination.currentPage=currentPage;
-   }
-
-   //tính toán số lượng skip(ptu bắt đầu lấy)
-   pagination.skip=(pagination.currentPage-1)*pagination.limit;
-   //tính xem cần có bnhiue trang
-   const countProducts=await Products.countDocuments(find);// đếm số lg sản phẩm theo bộ lọc
-   const totalPage=Math.ceil(countProducts/pagination.limit);
-   pagination.totalPage=totalPage;
+    
+    const countProducts = await Products.countDocuments(find); // đếm số lg sản phẩm theo bộ lọc
+    //mục đích truyền vào object, tính toán rồi thêm các key totalPage vào obecjt rồi trả về
+    const objectPagination=paginationHelper(
+        {
+        currentPage:1,// mặc định trang htai là 1 
+        limit:4//giới hạn 4 ptu 1 trang
+        }
+        ,req.query
+        ,countProducts
+    );
 
     const Product = await Products.find(find).limit(pagination.limit).skip(pagination.skip)
     res.render("admin/pages/products/index", {
@@ -45,7 +44,7 @@ module.exports.index = async (req, res) => {
         products: Product,
         filterStatus: filterStatus,
         keyword: objectSearch.keyword,
-        pagination:pagination
+        pagination:objectPagination
     });
 
 

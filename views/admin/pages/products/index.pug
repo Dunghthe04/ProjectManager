@@ -1,6 +1,7 @@
 extends ../../layout/default.pug
 include ../../mixins/filterStatus.pug
 include ../../mixins/searchForm.pug
+include ../../mixins/pagination.pug
 block main 
   h1 Trang danh sách các sản phẩm 
   .card.mb-3
@@ -45,25 +46,5 @@ block main
                     button(class="btn btn-warning btn-sm") Sửa
                     button(class="btn btn-danger btn-sm ml-1") Xóa
 
-  nav
-    ul(class="pagination")
-        
-        li(class=`page-item`)
-                  button(class="page-link" button-pagination=1) Restart
-        if(pagination.currentPage>1)
-          li(class=`page-item`)
-                  button(class="page-link" button-pagination=pagination.currentPage-1) previous
-
-        - for(var i=1;i<=pagination.totalPage;i++)      
-              li(class=`page-item ${pagination.currentPage==i?'active':''}`)
-                button(class="page-link" button-pagination=i) #{i}
-
-        if(pagination.currentPage<pagination.totalPage)
-          li(class=`page-item`)
-              button(class="page-link" button-pagination=pagination.currentPage+1) next 
-        li(class=`page-item`)
-                  button(class="page-link" button-pagination=pagination.totalPage) Last
-        //bài toán hiện ra 3 trang gần nhất so với trang hiện tại
-        //- - for(var i=pagination.currentPage-1;i<=pagination.currentPage+1;i++)      
-        //-       li(class=`page-item ${pagination.currentPage==i?'active':''}`)
-        //-         button(class="page-link" button-pagination=i) #{i}
+  +pagination(pagination)
+    
