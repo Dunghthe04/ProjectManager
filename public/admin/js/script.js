@@ -52,14 +52,14 @@ if(buttonPage.length>0){
    })
 }
 
-//checkbox-change-multi
+// checkbox-change-multi
 const checkMulti =document.querySelector("[check-box-multi]");
 if(checkMulti){
    const checkAll=checkMulti.querySelector("input[name='checkall']");
    const inputIds=checkMulti.querySelectorAll("input[name='id']");
-   console.log(checkAll);
    
    checkAll.addEventListener("click",()=>{
+         // nếu chọn nút checkall
       if(checkAll.checked){
          //check tất cả
          inputIds.forEach(inputId=>{
@@ -72,14 +72,13 @@ if(checkMulti){
          })
       }
    })
-   //nếu k click vào nút all, duyệt qua từng checkId-> dếm
+   //nếu k click vào nút all, đếm xem số lượng nút checked==totalChecked?
    inputIds.forEach(input=>{
       input.addEventListener("click",()=>{
          //đếm xem có bnhieu ô click
-         const countInputChecked=checkMulti.querySelectorAll("input[name='id']:checked").length;// số lượng nút click
+         const countInputChecked=checkMulti.querySelectorAll("input[name='id']:checked").length;
          const totalInput=inputIds.length;
-
-         //nếu số lượng click=total=> checkAll(click)
+         //nếu số lượng click=total=> chọn nút checkedAll
          if(countInputChecked==totalInput){
             checkAll.checked=true;
          }else{
@@ -90,29 +89,29 @@ if(checkMulti){
    
 }
 
-//form-change-multi
+// form-change-multi
 const formChangeMulti=document.querySelector("[form-multi-change]");
 if(formChangeMulti){
    formChangeMulti.addEventListener("submit",(e)=>{
        e.preventDefault();
-
        //lấy id của các inputId checked -> ghép vào 1 chuỗi -> đưa lên input
-      const checkMulti =document.querySelector("[check-box-multi]");
+      const checkMulti=document.querySelector("[check-box-multi]");
       const inputChecked=checkMulti.querySelectorAll("input[name='id']:checked");
       if(inputChecked.length>0){
           let ids=[];
           inputChecked.forEach(input =>{
-             const id=input.value
+             const id=input.value;
              ids.push(id);
           })
-          // gán vào ô input của form -> xíu ẩn đi mục đích để gửi input lên controller
+         //chuyển mảng thành chuỗi để chèn vào value của input trong form->gửi form -> chạy action trong form -> router-> backend (lấy thông qua req.body)-> thay đổi các document
           const inputIds=formChangeMulti.querySelector("input[name='ids']");
           inputIds.value=ids.join(", ");
 
           formChangeMulti.submit();
       }else{
-         alert("Vui lòng chọn ít nhất 1 bản ghi")
+         alert("Vui lòng chọn ít nhất 1 bản ghi");
       }
-
    })
 }
+
+

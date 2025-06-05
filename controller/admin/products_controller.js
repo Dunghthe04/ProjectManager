@@ -60,6 +60,7 @@ module.exports.changeStatus = async (req, res) => {
     res.redirect(req.get('Referer')); // chuyển hướng về url trc đây
 }
 
+//[PATCH] /admin/products/change-multi
 module.exports.changeMulti=async (req,res)=>{
     console.log(req.body);
     const status=req.body.type;
@@ -77,5 +78,13 @@ module.exports.changeMulti=async (req,res)=>{
         default:
             break;
     }
+    res.redirect(req.get('referer'));
+}
+
+//[DELETE]/admin/products/delete/:id
+module.exports.delete=async(req,res)=>{
+    //lấy ra id xóa
+    const id=req.params.id;
+    await Product.deleteOne({_id: id});
     res.redirect(req.get('referer'));
 }
