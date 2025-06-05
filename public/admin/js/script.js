@@ -114,4 +114,21 @@ if(formChangeMulti){
    })
 }
 
+//recover
+const buttonRecovers=document.querySelectorAll("[button-recover]");
+console.log(buttonRecovers);
+
+if(buttonRecovers.length>0){
+   const formRecoverItem=document.querySelector("#form-recover-item");
+   const path=formRecoverItem.getAttribute("data-path");
+   buttonRecovers.forEach(button=>{
+      button.addEventListener("click",()=>{
+         const idRecover=button.getAttribute("data-id");
+         const action=`${path}/${idRecover}?_method=PATCH`;
+         formRecoverItem.action=action;
+         formRecoverItem.submit();
+      })
+   })
+}
+
 

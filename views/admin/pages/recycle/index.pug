@@ -16,16 +16,15 @@ block main
 
 
   .card.mb-3
-    .card-header Danh sách
+    .card-header Thùng rác
     .card-body
         +formChangeMulti(`${prefixAdmin}/products/change-multi?_method=PATCH`)
         //- Truyền thẳng path vào luôn vì nó ko biến động nào cả
-
         a(
-          href=`${prefixAdmin}/recycle`
+          href=`${prefixAdmin}/products`
           class="btn btn-secondary"
           recycle Item
-        ) Recycle Item
+        ) Quay trở lại
         table(
           class="table table-hover table-sm"
           check-box-multi
@@ -66,34 +65,21 @@ block main
                      class="badge badge-success") Hoạt động
                     else         
                      a(href="javascript:;"
-                      data-status=item.status
-                      data-id=item.id 
-                      button-change-status
-                      class="badge badge-danger") Ngưng hoạt động
+                       data-status=item.status
+                       data-id=item.id 
+                       button-change-status 
+                       class="badge badge-danger") Ngưng hoạt động
                 td 
-                    button(class="btn btn-warning btn-sm") Sửa
-                    button(
-                    class="btn btn-danger btn-sm ml-1"
-                    data-id=item.id 
-                    delete-item
-                    ) Xóa
-
+                    button(class="btn btn-warning btn-sm"
+                      data-id=item.id 
+                      button-recover
+                    ) Khôi phục
+  form(
+    action=""
+    method="POST"
+    id="form-recover-item"
+    data-path=`${prefixAdmin}/recycle`
+  )
   +pagination(pagination)
-  //- tạo form ảo -> xíu lấy đc status id của sp đó -> tạo ra 1 action -> gán vào action form -> gửi đi
-  //-tạo action động vì id thay đổi,...
-  form(
-    action=""
-    method="POST"
-    id="form-change-status"
-    data-path=`${prefixAdmin}/products/change-status`
-  )
-  //- Tạo form ảo -> sử lý bên js lấy id của button click -> tạo action mới -> gán form -> link đến router-> controller xử lý xóa
-  form(
-    action=""
-    method="POST"
-    id="form-delete-item"
-    data-path=`${prefixAdmin}/products/delete`
-  )
+   script(src="/admin/js/product.js")
   
-  script(src="/admin/js/product.js")
-    

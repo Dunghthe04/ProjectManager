@@ -91,3 +91,5 @@ module.exports.delete=async(req,res)=>{
     await Product.updateOne({_id: id},{deleted: true , deletedTime: new Date()})
     res.redirect(req.get('referer'));
 }
+
+
