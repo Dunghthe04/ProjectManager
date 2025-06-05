@@ -85,6 +85,9 @@ module.exports.changeMulti=async (req,res)=>{
 module.exports.delete=async(req,res)=>{
     //lấy ra id xóa
     const id=req.params.id;
-    await Product.deleteOne({_id: id});
+    //xóa cứng
+    // await Product.deleteOne({_id: id});
+    //xóa mềm -> chỉ cần thay đổi deleted=true, ta có thể thêm trường vào db (bắt buộc phải có trường đó trong model)
+    await Product.updateOne({_id: id},{deleted: true , deletedTime: new Date()})
     res.redirect(req.get('referer'));
 }

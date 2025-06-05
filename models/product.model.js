@@ -11,7 +11,8 @@ const schema = new mongoose.Schema({
     thumbnail :String,
     position:Number,
     deleted:Boolean,
-    status:String
+    status:String,
+    deletedTime:Date
 })
 const Product = mongoose.model('Product', schema, "products")
 
