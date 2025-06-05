@@ -5,6 +5,7 @@ const systemConfig=require("./config/system")
 //nhận đc hàm bên router(bên đó export ra 1 hàm)-Nhúng file route tổng
 const route=require("./routers/client/index.router");
 const routeAdmin=require("./routers/admin/index.router");
+var methodOverride = require('method-override')
 require('dotenv').config()
 
 //nhúng file đó vào
@@ -14,7 +15,9 @@ database.connect();
 
 const app = express()
 const port = process.env.PORT;
-
+app.use(methodOverride('_method'))
+const bodyParser = require('body-parser')
+app.use(bodyParser.urlencoded())
 //Khai báo folder chứa các file view
 app.set("views","./views");
 //khai báo template engine

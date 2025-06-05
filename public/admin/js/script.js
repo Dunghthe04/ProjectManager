@@ -51,3 +51,68 @@ if(buttonPage.length>0){
       })
    })
 }
+
+//checkbox-change-multi
+const checkMulti =document.querySelector("[check-box-multi]");
+if(checkMulti){
+   const checkAll=checkMulti.querySelector("input[name='checkall']");
+   const inputIds=checkMulti.querySelectorAll("input[name='id']");
+   console.log(checkAll);
+   
+   checkAll.addEventListener("click",()=>{
+      if(checkAll.checked){
+         //check tất cả
+         inputIds.forEach(inputId=>{
+            inputId.checked=true;
+         })
+      }else{
+         //bỏ check all
+         inputIds.forEach(inputId=>{
+            inputId.checked=false;
+         })
+      }
+   })
+   //nếu k click vào nút all, duyệt qua từng checkId-> dếm
+   inputIds.forEach(input=>{
+      input.addEventListener("click",()=>{
+         //đếm xem có bnhieu ô click
+         const countInputChecked=checkMulti.querySelectorAll("input[name='id']:checked").length;// số lượng nút click
+         const totalInput=inputIds.length;
+
+         //nếu số lượng click=total=> checkAll(click)
+         if(countInputChecked==totalInput){
+            checkAll.checked=true;
+         }else{
+            checkAll.checked=false;
+         }
+      })
+   })
+   
+}
+
+//form-change-multi
+const formChangeMulti=document.querySelector("[form-multi-change]");
+if(formChangeMulti){
+   formChangeMulti.addEventListener("submit",(e)=>{
+       e.preventDefault();
+
+       //lấy id của các inputId checked -> ghép vào 1 chuỗi -> đưa lên input
+      const checkMulti =document.querySelector("[check-box-multi]");
+      const inputChecked=checkMulti.querySelectorAll("input[name='id']:checked");
+      if(inputChecked.length>0){
+          let ids=[];
+          inputChecked.forEach(input =>{
+             const id=input.value
+             ids.push(id);
+          })
+          // gán vào ô input của form -> xíu ẩn đi mục đích để gửi input lên controller
+          const inputIds=formChangeMulti.querySelector("input[name='ids']");
+          inputIds.value=ids.join(", ");
+
+          formChangeMulti.submit();
+      }else{
+         alert("Vui lòng chọn ít nhất 1 bản ghi")
+      }
+
+   })
+}
