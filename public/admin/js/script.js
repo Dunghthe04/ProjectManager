@@ -111,7 +111,14 @@ if(formChangeMulti){
           let ids=[];
           inputChecked.forEach(input =>{
              const id=input.value;
-             ids.push(id);
+             //nếu là changepotion-> cần lấy thêm id-position->mảng ids lúc này chứa cả id và position
+             if(valueOption=="change-position"){
+               const position=input.closest("tr").querySelector("input[name='position']").value;
+               const positionAndId=`${id}-${position}`;
+               ids.push(positionAndId);
+             }else{
+                ids.push(id);
+             }
           })
          //chuyển mảng thành chuỗi để chèn vào value của input trong form->gửi form -> chạy action trong form -> router-> backend (lấy thông qua req.body)-> thay đổi các document
           const inputIds=formChangeMulti.querySelector("input[name='ids']");

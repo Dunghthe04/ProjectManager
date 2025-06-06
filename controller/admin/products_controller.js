@@ -34,7 +34,7 @@ module.exports.index = async (req, res) => {
         pagination, req.query, countProducts
     );
 
-    const Product = await Products.find(find).limit(pagination.limit).skip(pagination.skip)
+    const Product = await Products.find(find).sort({position:"desc"}).limit(pagination.limit).skip(pagination.skip)
     res.render("admin/pages/products/index", {
         pageTitle: "Danh sách sản phẩm",
         products: Product,
@@ -77,6 +77,14 @@ module.exports.changeMulti=async (req,res)=>{
 
         case "delete-multi":
             await Products.updateMany({_id: { $in: ids }},{deleted: true});
+            break;  
+        
+        case "change-position":
+            // h mảng ids kia là mảng ,
+            for (const ele of ids) { //các otu là cặp string id-position 
+                [id,position]=ele.split("-");// tách string đó thành mảng [id,posion]-> dùng distructuring
+                await Products.updateOne({_id: id},{position: position});// cập nhập từng ptu , vì chúng k chung nhau position
+            }
             break;    
 
         default:

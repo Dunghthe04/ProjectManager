@@ -7,6 +7,7 @@ module.exports.index=async(req, res) => {
         deleted: false,
         status:'active'
     })
+    .sort({position: "desc"})
     //tạo mảng mới và thêm key
     const newProducts=Products.map(item=>{
         item.priceNew=(item.price*(100-item.discountPercentage)/100).toFixed(0);// làm tròn chữ số phập thân 0
