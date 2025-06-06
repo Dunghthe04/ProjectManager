@@ -97,6 +97,16 @@ if(formChangeMulti){
        //lấy id của các inputId checked -> ghép vào 1 chuỗi -> đưa lên input
       const checkMulti=document.querySelector("[check-box-multi]");
       const inputChecked=checkMulti.querySelectorAll("input[name='id']:checked");
+
+      //kiểm tra xem có xóa các nút checked đó k, nếu ko -> return (ko thực hiện lấy id checked gửi form)
+      const valueOption=e.target.elements.type.value;
+      if(valueOption=="delete-multi"){
+         const check=confirm("Bạn có chắc chắn muốn xóa")
+         if(!check){
+            return;
+         }
+      }
+      //nếu k return -> chạy xuống và gửi id checked đi bình thường
       if(inputChecked.length>0){
           let ids=[];
           inputChecked.forEach(input =>{
