@@ -57,6 +57,7 @@ module.exports.changeStatus = async (req, res) => {
     await Products.updateOne({_id: id}, {status: status}) //cập nhập 1 document
     //    res.redirect("/admin/products"); // chuyển hướng đến url
     // console.log("Referer:", req.get('Referer')); 
+    req.flash("success", "Đã cập nhập thành công");
     res.redirect(req.get('Referer')); // chuyển hướng về url trc đây
 }
 
@@ -69,14 +70,17 @@ module.exports.changeMulti=async (req,res)=>{
     switch (status) {
         case "active":
             await Products.updateMany({_id: { $in: ids }},{status: status});
+            req.flash('success', `Đã thay đổi ${ids.length} sản phẩm thành công`);
             break;
         
         case "inactive":
             await Products.updateMany({_id: { $in: ids }},{status: status});
+            req.flash('success', `Đã thay đổi ${ids.length} sản phẩm thành công`);
             break;
 
         case "delete-multi":
             await Products.updateMany({_id: { $in: ids }},{deleted: true});
+            req.flash('success', `Đã xóa ${ids.length} sản phẩm thành công`);
             break;  
         
         case "change-position":
@@ -84,6 +88,7 @@ module.exports.changeMulti=async (req,res)=>{
             for (const ele of ids) { //các otu là cặp string id-position 
                 [id,position]=ele.split("-");// tách string đó thành mảng [id,posion]-> dùng distructuring
                 await Products.updateOne({_id: id},{position: position});// cập nhập từng ptu , vì chúng k chung nhau position
+                req.flash('success', `Đã thay đổi trạng thái ${ids.length} sản phẩm thành công`);
             }
             break;    
 

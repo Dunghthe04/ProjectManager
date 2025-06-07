@@ -148,4 +148,21 @@ if(buttonRecovers.length>0){
    })
 }
 
+//alerrt
+
+//sau 1 khoảng thời gian -> ẩn thông báo
+const showAlert=document.querySelector("[show-alert]");
+console.log(showAlert);
+
+if(showAlert){
+   const dataTime=parseInt(showAlert.getAttribute("data-time"));
+   const closeBtn=showAlert.querySelector("[colse-alert]");
+   setTimeout(()=>{
+      showAlert.classList.add("alert-hidden")
+   },dataTime)
+
+   closeBtn.addEventListener("click",()=>{
+      showAlert.classList.add("alert-hidden")
+   })
+}
 

@@ -17,11 +17,19 @@ const app = express()
 const port = process.env.PORT;
 app.use(methodOverride('_method'))
 const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
+const session = require('express-session')
+const flash=require('express-flash')
 app.use(bodyParser.urlencoded())
 //Khai báo folder chứa các file view
 app.set("views","./views");
 //khai báo template engine
 app.set("view engine","pug");
+
+//flash
+app.use(cookieParser('XYYDGDBSDS'));
+app.use(session({ cookie: { maxAge: 60000 }}));
+app.use(flash());
 
 //applocal
 app.locals.prefixAdmin=systemConfig.prefixAdmin;
