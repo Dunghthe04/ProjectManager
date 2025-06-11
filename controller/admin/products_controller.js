@@ -113,10 +113,13 @@ module.exports.create=(req,res)=>{
     res.render("admin/pages/products/create.pug");
 }
 module.exports.createPost=async(req,res)=>{
-    req.body.price=parseFloat(req.body.price);
-    req.body.discountPercentage=parseFloat(req.body.discountPercentage);
+    req.body.price=parseInt(req.body.price);
+    req.body.discountPercentage=parseInt(req.body.discountPercentage);
     req.body.stock=parseInt(req.body.stock);
    
+    //req.file -> chứa thông tin về file mà gửi từ form lên
+    console.log(req.file);
+    
     //nếu ng dùng nhâp -> lấy số đó, còn k thì mình đếm trong db rồi tăng 1
     if(req.body.position==""){
         const numberOfDocuments= await Products.countDocuments();
@@ -126,6 +129,8 @@ module.exports.createPost=async(req,res)=>{
     }else{
         req.body.position=parseInt(req.body.position);
     }
+    //gán lại cho thumbnail là tên file name
+    req.body.thumbnail=`/uploads/${req.file.filename}`;
     const newProducts=new Product(req.body);
     await newProducts.save();
     res.redirect(`${systemConfig.prefixAdmin}/products`);

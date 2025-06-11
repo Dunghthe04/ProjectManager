@@ -1,7 +1,7 @@
 extends ../../layout/default.pug
 block main  
   h1(class="mb-4") Thêm mới sản phẩm
-  form(action=`${prefixAdmin}/products/create` method="POST")
+  form(action=`${prefixAdmin}/products/create` method="POST" enctype="multipart/form-data")
     .form-group
       label(for="title") Tiêu đề
       input(id="title" type="text" name="title" class="form-control" placeholder="Nhập tiêu đề")
@@ -10,16 +10,16 @@ block main
       textarea(id="description" name="description" class="form-control" placeholder="Nhập mô tả")  
     .form-group 
       label(for="price") Giá
-      input(id='price' name="price" type="number" class="form-control" placeholder="Nhập giá tiền")
+      input(id='price' name="price" type="number" min="0" value="0" class="form-control" placeholder="Nhập giá tiền")
     .form-group 
       label(for="discountPercentage") Giảm giá
-      input(id='discountPercentage' name="discountPercentage" type="number" class="form-control" placeholder="Nhập phần trăm giảm giá") 
+      input(id='discountPercentage' name="discountPercentage" min="0" value="0" type="number" class="form-control" placeholder="Nhập phần trăm giảm giá") 
     .form-group 
       label(for="stock") Số lượng
-      input(id='stock' name="stock" type="number" class="form-control" placeholder="Nhập số lượng còn trong kho") 
+      input(id='stock' name="stock" type="number" min="0" value="0" class="form-control" placeholder="Nhập số lượng còn trong kho") 
     .form-group 
       label(for="thumbnail") Ảnh
-      input(id='thumbnail' name="thumbnail" type="text" class="form-control" placeholder="Nhập đường dẫn ảnh")
+      input(id='thumbnail' name="thumbnail" type="file" class="form-control-file" placeholder="Nhập đường dẫn ảnh" accept="image/*")
     .form-group 
       label(for="position") Vị trí
       input(id='position' name="position" type="text" class="form-control" placeholder="Nhập đường dẫn ảnh")
@@ -27,8 +27,8 @@ block main
       .row.col-5
         .col-6 
           .form-check 
-            input(class="form-check-input" claas="form-control"  type="radio" name="status" id="status" value="active")
-            label(class="form-check-label" for="radio") Hoạt động
+            input(class="form-check-input" claas="form-control" checked  type="radio" name="status" id="status" value="active")
+            label(class="form-check-label" for="radio" ) Hoạt động
         .col-6 
           .form-check 
             input(class="form-check-input" claas="form-control" type="radio" name="status" id="status" value="inactive")
