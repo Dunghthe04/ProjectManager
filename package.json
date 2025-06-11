@@ -17,8 +17,11 @@
     "express": "^5.1.0",
     "express-flash": "^0.0.2",
     "express-session": "^1.18.1",
+    "i": "^0.3.7",
     "method-override": "^3.0.0",
     "mongoose": "^8.15.0",
+    "mongoose-slug-updater": "^3.3.0",
+    "npm": "^11.4.1",
     "pug": "^3.0.3"
   },
   "devDependencies": {

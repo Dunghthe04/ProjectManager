@@ -1,0 +1,37 @@
+extends ../../layout/default.pug
+block main  
+  h1(class="mb-4") Thêm mới sản phẩm
+  form(action=`${prefixAdmin}/products/create` method="POST")
+    .form-group
+      label(for="title") Tiêu đề
+      input(id="title" type="text" name="title" class="form-control" placeholder="Nhập tiêu đề")
+    .form-group
+      label(for="description") Mô tả
+      textarea(id="description" name="description" class="form-control" placeholder="Nhập mô tả")  
+    .form-group 
+      label(for="price") Giá
+      input(id='price' name="price" type="number" class="form-control" placeholder="Nhập giá tiền")
+    .form-group 
+      label(for="discountPercentage") Giảm giá
+      input(id='discountPercentage' name="discountPercentage" type="number" class="form-control" placeholder="Nhập phần trăm giảm giá") 
+    .form-group 
+      label(for="stock") Số lượng
+      input(id='stock' name="stock" type="number" class="form-control" placeholder="Nhập số lượng còn trong kho") 
+    .form-group 
+      label(for="thumbnail") Ảnh
+      input(id='thumbnail' name="thumbnail" type="text" class="form-control" placeholder="Nhập đường dẫn ảnh")
+    .form-group 
+      label(for="position") Vị trí
+      input(id='position' name="position" type="text" class="form-control" placeholder="Nhập đường dẫn ảnh")
+    .form-group 
+      .row.col-5
+        .col-6 
+          .form-check 
+            input(class="form-check-input" claas="form-control"  type="radio" name="status" id="status" value="active")
+            label(class="form-check-label" for="radio") Hoạt động
+        .col-6 
+          .form-check 
+            input(class="form-check-input" claas="form-control" type="radio" name="status" id="status" value="inactive")
+            label(class="form-check-label" for="radio") Dừng hoạt động
+    button(type="submit" class="btn btn-primary") Submit  
+  script(src="/admin/js/product.js")

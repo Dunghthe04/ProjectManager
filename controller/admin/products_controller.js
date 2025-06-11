@@ -3,6 +3,7 @@ const filterStatusHelper = require("../../helpers/filter_Status");
 const objectHelper = require("../../helpers/searchForm.js")
 const paginationHelper = require("../../helpers/pagination.js");
 const Product = require('../../models/product.model');
+const systemConfig=require("../../config/system.js");
 // [GET] /admin/products
 module.exports.index = async (req, res) => {
 
@@ -107,6 +108,27 @@ module.exports.delete=async(req,res)=>{
     //xóa mềm -> chỉ cần thay đổi deleted=true, ta có thể thêm trường vào db (bắt buộc phải có trường đó trong model)
     await Product.updateOne({_id: id},{deleted: true , deletedTime: new Date()})
     res.redirect(req.get('referer'));
+}
+module.exports.create=(req,res)=>{
+    res.render("admin/pages/products/create.pug");
+}
+module.exports.createPost=async(req,res)=>{
+    req.body.price=parseFloat(req.body.price);
+    req.body.discountPercentage=parseFloat(req.body.discountPercentage);
+    req.body.stock=parseInt(req.body.stock);
+   
+    //nếu ng dùng nhâp -> lấy số đó, còn k thì mình đếm trong db rồi tăng 1
+    if(req.body.position==""){
+        const numberOfDocuments= await Products.countDocuments();
+        req.body.position=numberOfDocuments+1;
+        console.log(numberOfDocuments);
+        
+    }else{
+        req.body.position=parseInt(req.body.position);
+    }
+    const newProducts=new Product(req.body);
+    await newProducts.save();
+    res.redirect(`${systemConfig.prefixAdmin}/products`);
 }
 
 
