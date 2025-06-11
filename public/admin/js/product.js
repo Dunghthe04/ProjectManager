@@ -22,7 +22,6 @@ if(buttonChangeStatus.length>0){
 
 //delete products
 const buttonsDelete=document.querySelectorAll("[delete-item]");
-console.log(buttonsDelete);
 
 if(buttonsDelete.length>0){
  const formDeleteItem=document.querySelector("#form-delete-item");

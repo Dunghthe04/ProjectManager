@@ -118,19 +118,21 @@ module.exports.createPost=async(req,res)=>{
     req.body.stock=parseInt(req.body.stock);
    
     //req.file -> chứa thông tin về file mà gửi từ form lên
-    console.log(req.file);
+    // console.log(req.file);
     
     //nếu ng dùng nhâp -> lấy số đó, còn k thì mình đếm trong db rồi tăng 1
     if(req.body.position==""){
         const numberOfDocuments= await Products.countDocuments();
         req.body.position=numberOfDocuments+1;
-        console.log(numberOfDocuments);
+        // console.log(numberOfDocuments);
         
     }else{
         req.body.position=parseInt(req.body.position);
     }
     //gán lại cho thumbnail là tên file name
-    req.body.thumbnail=`/uploads/${req.file.filename}`;
+    if(req.file){
+        req.body.thumbnail=`/uploads/${req.file.filename}`;
+    }
     const newProducts=new Product(req.body);
     await newProducts.save();
     res.redirect(`${systemConfig.prefixAdmin}/products`);
