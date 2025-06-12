@@ -29,11 +29,12 @@ block main
                 placeholder="Nhập đường dẫn ảnh" 
                 accept="image/*"
                 upload-image-input)
-          img(
-            src=product.thumbnail
-            upload-image-preview=''
-            class="image-preview"
-            ) 
+          .box-button()
+            img(
+              src=product.thumbnail
+              upload-image-preview=''
+              class="image-preview"
+              ) 
                
     .form-group 
       label(for="position") Vị trí
