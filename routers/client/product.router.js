@@ -7,5 +7,5 @@ const controller=require("../../controller/client/product_controller");
 
 // (/product/=/product), nếu truy cập đúng đường dẫn ==> gọi hàm controller của product để xử lý
 router.get('/',controller.index);
-
+router.get('/detail/:slug',controller.detail);
 module.exports=router;
