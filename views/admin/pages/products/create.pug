@@ -28,12 +28,13 @@ block main
                 placeholder="Nhập đường dẫn ảnh" 
                 accept="image/*"
                 upload-image-input)
-          img(
+          .box-button()
+            img(
             src=""
             upload-image-preview=''
             class="image-preview"
             ) 
-               
+            span(class="closeBtn") x    
     .form-group 
       label(for="position") Vị trí
       input(id='position' name="position" type="text" class="form-control" placeholder="Nhập đường dẫn ảnh")

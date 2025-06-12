@@ -10,5 +10,5 @@ module.exports = () => {
             cb(null,`${uniqueSuffix}-${file.originalname}`)// multer lưu file rồi, nên k cần truyền file vào hàm
         }
     })
-    return storage;// mục đích cuối trả về storage
+    return ;storage// mục đích cuối trả về storage
 }

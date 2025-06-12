@@ -6,6 +6,7 @@ const storageMulter=require('../../helpers/storageMulter');
 const validate=require('../../validate/createProduct');
 const upload=multer({storage: storageMulter()});// thư mục lưu ảnh khi upload lên, multer thì phải thêm cả public
 
+
 router.get("/",controller.index)
 router.patch("/change-status/:status/:id",controller.changeStatus);
 router.patch("/change-multi",controller.changeMulti)

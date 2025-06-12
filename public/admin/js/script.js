@@ -168,13 +168,28 @@ const uploadImage = document.querySelectorAll('[upload-image]');
 if (uploadImage) {
    const uploadImageInput = document.querySelector("[upload-image-input]");
    const uploadImagePreview = document.querySelector("[upload-image-preview]");
-
+   const btnClose = document.querySelector(".closeBtn");
    //nếu có change => ng dùng chọn file ở input
    uploadImageInput.addEventListener("change", (e) => {
+      btnClose.classList.add("open");
       const file = e.target.files[0]; // e.target=uploadInput, target.files[0]: lấy ra file mà ng dùng chọn
       if (file) {
          //gán src preview = file đó
          uploadImagePreview.src = URL.createObjectURL(file);
       }
    })
+}
+
+//resolve-image
+const btnClose = document.querySelector(".closeBtn");
+if (btnClose) {
+   btnClose.addEventListener("click", () => {
+      const uploadImageInput = document.querySelector("[upload-image-input]");
+      const uploadImagePreview = document.querySelector("[upload-image-preview]");
+      const btnClose = document.querySelector(".closeBtn");
+      uploadImageInput.value = "";
+      uploadImagePreview.src = "";
+      btnClose.classList.remove("open");
+   })
+
 }
