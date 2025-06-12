@@ -3,7 +3,7 @@ const filterStatusHelper = require("../../helpers/filter_Status");
 const objectHelper = require("../../helpers/searchForm.js")
 const paginationHelper = require("../../helpers/pagination.js");
 const Product = require('../../models/product.model');
-const systemConfig=require("../../config/system.js");
+const systemConfig = require("../../config/system.js");
 // [GET] /admin/products
 module.exports.index = async (req, res) => {
 
@@ -35,7 +35,9 @@ module.exports.index = async (req, res) => {
         pagination, req.query, countProducts
     );
 
-    const Product = await Products.find(find).sort({position:"desc"}).limit(pagination.limit).skip(pagination.skip)
+    const Product = await Products.find(find).sort({
+        position: "desc"
+    }).limit(pagination.limit).skip(pagination.skip)
     res.render("admin/pages/products/index", {
         pageTitle: "Danh sách sản phẩm",
         products: Product,
@@ -55,7 +57,11 @@ module.exports.changeStatus = async (req, res) => {
     //    res.send(`${status}-${id}`);
 
     //gọi model.updateOne({id: idUpdate},{dataUpdate:data})
-    await Products.updateOne({_id: id}, {status: status}) //cập nhập 1 document
+    await Products.updateOne({
+        _id: id
+    }, {
+        status: status
+    }) //cập nhập 1 document
     //    res.redirect("/admin/products"); // chuyển hướng đến url
     // console.log("Referer:", req.get('Referer')); 
     req.flash("success", "Đã cập nhập thành công");
@@ -63,35 +69,57 @@ module.exports.changeStatus = async (req, res) => {
 }
 
 //[PATCH] /admin/products/change-multi
-module.exports.changeMulti=async (req,res)=>{
+module.exports.changeMulti = async (req, res) => {
     console.log(req.body);
-    const status=req.body.type;
-    const ids=(req.body.ids).split(", ");// tách ra thành mảng
+    const status = req.body.type;
+    const ids = (req.body.ids).split(", "); // tách ra thành mảng
 
     switch (status) {
         case "active":
-            await Products.updateMany({_id: { $in: ids }},{status: status});
+            await Products.updateMany({
+                _id: {
+                    $in: ids
+                }
+            }, {
+                status: status
+            });
             req.flash('success', `Đã thay đổi ${ids.length} sản phẩm thành công`);
             break;
-        
+
         case "inactive":
-            await Products.updateMany({_id: { $in: ids }},{status: status});
+            await Products.updateMany({
+                _id: {
+                    $in: ids
+                }
+            }, {
+                status: status
+            });
             req.flash('success', `Đã thay đổi ${ids.length} sản phẩm thành công`);
             break;
 
         case "delete-multi":
-            await Products.updateMany({_id: { $in: ids }},{deleted: true});
+            await Products.updateMany({
+                _id: {
+                    $in: ids
+                }
+            }, {
+                deleted: true
+            });
             req.flash('success', `Đã xóa ${ids.length} sản phẩm thành công`);
-            break;  
-        
+            break;
+
         case "change-position":
             // h mảng ids kia là mảng ,
             for (const ele of ids) { //các otu là cặp string id-position 
-                [id,position]=ele.split("-");// tách string đó thành mảng [id,posion]-> dùng distructuring
-                await Products.updateOne({_id: id},{position: position});// cập nhập từng ptu , vì chúng k chung nhau position
+                [id, position] = ele.split("-"); // tách string đó thành mảng [id,posion]-> dùng distructuring
+                await Products.updateOne({
+                    _id: id
+                }, {
+                    position: position
+                }); // cập nhập từng ptu , vì chúng k chung nhau position
                 req.flash('success', `Đã thay đổi trạng thái ${ids.length} sản phẩm thành công`);
             }
-            break;    
+            break;
 
         default:
             break;
@@ -100,42 +128,86 @@ module.exports.changeMulti=async (req,res)=>{
 }
 
 //[DELETE]/admin/products/delete/:id
-module.exports.delete=async(req,res)=>{
+module.exports.delete = async (req, res) => {
     //lấy ra id xóa
-    const id=req.params.id;
+    const id = req.params.id;
     //xóa cứng
     // await Product.deleteOne({_id: id});
     //xóa mềm -> chỉ cần thay đổi deleted=true, ta có thể thêm trường vào db (bắt buộc phải có trường đó trong model)
-    await Product.updateOne({_id: id},{deleted: true , deletedTime: new Date()})
+    await Product.updateOne({
+        _id: id
+    }, {
+        deleted: true,
+        deletedTime: new Date()
+    })
     res.redirect(req.get('referer'));
 }
-module.exports.create=(req,res)=>{
+module.exports.create = (req, res) => {
     res.render("admin/pages/products/create.pug");
 }
-module.exports.createPost=async(req,res)=>{
-    req.body.price=parseInt(req.body.price);
-    req.body.discountPercentage=parseInt(req.body.discountPercentage);
-    req.body.stock=parseInt(req.body.stock);
-   
+module.exports.createPost = async (req, res) => {
+    req.body.price = parseInt(req.body.price);
+    req.body.discountPercentage = parseInt(req.body.discountPercentage);
+    req.body.stock = parseInt(req.body.stock);
+
     //req.file -> chứa thông tin về file mà gửi từ form lên
     // console.log(req.file);
-    
+
     //nếu ng dùng nhâp -> lấy số đó, còn k thì mình đếm trong db rồi tăng 1
-    if(req.body.position==""){
-        const numberOfDocuments= await Products.countDocuments();
-        req.body.position=numberOfDocuments+1;
+    if (req.body.position == "") {
+        const numberOfDocuments = await Products.countDocuments();
+        req.body.position = numberOfDocuments + 1;
         // console.log(numberOfDocuments);
-        
-    }else{
-        req.body.position=parseInt(req.body.position);
+
+    } else {
+        req.body.position = parseInt(req.body.position);
     }
     //gán lại cho thumbnail là tên file name
-    if(req.file){
-        req.body.thumbnail=`/uploads/${req.file.filename}`;
+    if (req.file) {
+        req.body.thumbnail = `/uploads/${req.file.filename}`;
     }
-    const newProducts=new Product(req.body);
+    const newProducts = new Product(req.body);
     await newProducts.save();
     res.redirect(`${systemConfig.prefixAdmin}/products`);
 }
 
+module.exports.edit = async (req, res) => {
+    // nếu tìm thấy id đó -> xử lý bthg, sai ném catch
+    try {
+        const find = {
+            deleted: false,
+            _id: req.params.id
+        }
 
+        const product = await Products.findOne(find);
+        console.log(product);
+
+        res.render("admin/pages/products/edit.pug", {
+            pageTitle: "Chỉnh sửa sản phẩm",
+            product: product
+        });
+    } catch (error) {
+        res.redirect(`${systemConfig.prefixAdmin}/products`);
+    }
+}
+
+module.exports.editPatch = async (req, res) => {
+    req.body.price = parseInt(req.body.price);
+    req.body.discountPercentage = parseInt(req.body.discountPercentage);
+    req.body.stock = parseInt(req.body.stock);
+
+    if (req.file) {
+        req.body.thumbnail = `/uploads/${req.file.filename}`;
+
+    }
+    try {
+        await Products.updateOne({
+            _id: req.params.id
+        }, req.body)
+        req.flash('success', `Cập nhập thành công`);
+    } catch (error) {
+        req.flash('error', "Cập nhập thát bại");
+    }
+    // res.redirect(req.get('referer'));
+    res.redirect(`${systemConfig.prefixAdmin}/products`);
+}
