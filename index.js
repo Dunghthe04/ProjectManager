@@ -22,7 +22,7 @@ const session = require('express-session')
 const flash=require('express-flash')
 app.use(bodyParser.urlencoded())
 //Khai báo folder chứa các file view
-app.set("views","./views");
+app.set("views",`${__dirname}/views`);
 //khai báo template engine
 app.set("view engine","pug");
 
@@ -35,7 +35,7 @@ app.use(flash());
 app.locals.prefixAdmin=systemConfig.prefixAdmin;
 
 //file tĩnh
-app.use(express.static("public"));
+app.use(express.static(`${__dirname}/public`));
 //Route (gọi hàm ==> thực hiện 2 route trong hàm đó)
 route(app);
 routeAdmin(app);
