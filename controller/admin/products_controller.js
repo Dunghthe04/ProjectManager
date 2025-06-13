@@ -164,7 +164,8 @@ module.exports.createPost = async (req, res) => {
     }
     //gán lại cho thumbnail là tên file name
     if (req.file) {
-        req.body.thumbnail = `/uploads/${req.file.filename}`;
+        console.log(req.file);
+        req.body.thumbnail=`/uploads/${req.file.filename}`;
     }
     const newProducts = new Product(req.body);
     await newProducts.save();
