@@ -162,11 +162,8 @@ module.exports.createPost = async (req, res) => {
     } else {
         req.body.position = parseInt(req.body.position);
     }
-    //gán lại cho thumbnail là tên file name
-    if (req.file) {
-        console.log(req.file);
-        req.body.thumbnail=`/uploads/${req.file.filename}`;
-    }
+    //phần ảnh xử lý bên middelware rồi
+   
     const newProducts = new Product(req.body);
     await newProducts.save();
     res.redirect(`${systemConfig.prefixAdmin}/products`);
