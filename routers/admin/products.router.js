@@ -23,6 +23,7 @@ router.post("/create",
 router.get("/edit/:id", controller.edit);
 router.patch("/edit/:id",
     upload.single('thumbnail'),
+    uploadClound.uploadClound,
     validate.createPost,
     controller.editPatch);
 router.get("/detail/:id", controller.detail);

@@ -34,10 +34,23 @@ module.exports.index = async (req, res) => {
     const objectPagination = paginationHelper(
         pagination, req.query, countProducts
     );
+    const sort = {}
+    const sortKey=req.query.sortKey;
+    const sortValue=req.query.sortValue;
+    console.log(sortKey);
+    console.log(sortValue);
+    
+    
+    if (sortKey && sortValue) {
+        //nếu ng dùng có sắp xếp-> sắp xếp theo ng dùng ,  dùng [] để nó hiểu là lấy giá trị trong [] là key của sort
+      sort[sortKey]=sortValue;
+    } else {
+        //nếu k có gì trên url -> mặc định sắp xếp giảm dần url
+        sort.position = "desc";
+    }
 
-    const Product = await Products.find(find).sort({
-        position: "desc"
-    }).limit(pagination.limit).skip(pagination.skip)
+
+    const Product = await Products.find(find).sort(sort).limit(pagination.limit).skip(pagination.skip)
     res.render("admin/pages/products/index", {
         pageTitle: "Danh sách sản phẩm",
         products: Product,
@@ -163,23 +176,23 @@ module.exports.createPost = async (req, res) => {
         req.body.position = parseInt(req.body.position);
     }
     //phần ảnh xử lý bên middelware rồi
-   
+
     const newProducts = new Product(req.body);
     await newProducts.save();
     res.redirect(`${systemConfig.prefixAdmin}/products`);
 }
 
-module.exports.edit=async(req,res)=>{
+module.exports.edit = async (req, res) => {
     try {
-       const find={
-         deleted: false,
-         _id:req.params.id
-       }
-       const product=await Products.findOne(find);
-       res.render("admin/pages/products/edit.pug",{
-        pageTitle:"Chỉnh sửa sản phẩm",
-        product: product
-       })
+        const find = {
+            deleted: false,
+            _id: req.params.id
+        }
+        const product = await Products.findOne(find);
+        res.render("admin/pages/products/edit.pug", {
+            pageTitle: "Chỉnh sửa sản phẩm",
+            product: product
+        })
     } catch (error) {
         res.redirect(req.get('referer'));
         req.flash(`error","Không tìm thấy sản phẩm có id = ${req.params.id}`)
@@ -187,37 +200,39 @@ module.exports.edit=async(req,res)=>{
 }
 
 
-module.exports.editPatch=async(req,res)=>{
+module.exports.editPatch = async (req, res) => {
     req.body.price = parseInt(req.body.price);
     req.body.discountPercentage = parseInt(req.body.discountPercentage);
     req.body.stock = parseInt(req.body.stock);
-    if(req.file){
-        req.body.thumbnail=`/uploads/${req.file.filename}`;
-    }
+    // if(req.file){
+    //     req.body.thumbnail=`/uploads/${req.file.filename}`;
+    // }
     try {
-        await Products.updateOne({_id: req.params.id},req.body)
-        req.flash("success","Cập nhập thành công")
+        await Products.updateOne({
+            _id: req.params.id
+        }, req.body)
+        req.flash("success", "Cập nhập thành công")
     } catch (error) {
-        req.flash("success","Cập nhập thất bại")
+        req.flash("success", "Cập nhập thất bại")
     }
     res.redirect(`${systemConfig.prefixAdmin}/products`)
 }
 
-module.exports.detail=async(req,res)=>{
+module.exports.detail = async (req, res) => {
     try {
-        const find={
+        const find = {
             deleted: false,
-            _id:req.params.id
+            _id: req.params.id
         }
-        const product=await Products.findOne(find);
+        const product = await Products.findOne(find);
         console.log(product);
-        
-        res.render("admin/pages/products/detail.pug",{
+
+        res.render("admin/pages/products/detail.pug", {
             pageTitle: product.title,
             product: product
         })
     } catch (error) {
         res.get(req.get('referer'));
-        req.flash("error",`Không tìm thấy sản phẩm có id= ${req.params.id}`)
+        req.flash("error", `Không tìm thấy sản phẩm có id= ${req.params.id}`)
     }
 }

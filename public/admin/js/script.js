@@ -163,7 +163,7 @@ if (showAlert) {
 
 
 //preview-image
-const uploadImage = document.querySelectorAll('[upload-image]');
+const uploadImage = document.querySelector('[upload-image]');
 
 if (uploadImage) {
    const uploadImageInput = document.querySelector("[upload-image-input]");
@@ -193,3 +193,41 @@ if (btnClose) {
    })
 
 }
+
+//Sort product
+const sortPart = document.querySelector("[sort]");
+if (sortPart) {
+   console.log(sortPart);
+   const sortSelect = sortPart.querySelector("[sort-select]");
+   const sortBtn = sortPart.querySelector("[sort-clear]");
+   let url = new URL(window.location.href);
+   sortSelect.addEventListener("change", (e) => {
+      //lấy giá trị ô select chọn -> tách ra 2 phần
+      const value = (e.target.value).split("-");
+      //dùng destructuring để lấy 2 giá trị đó vào 2 biến key và value
+      const [sortKey, sortValue] = value;
+      console.log(sortKey);
+      console.log(sortValue);
+
+      url.searchParams.set("sortKey", sortKey);
+      url.searchParams.set("sortValue", sortValue);
+
+      window.location.href = url.href;
+   });
+   //xóa sắp xếp
+   sortBtn.addEventListener("click", () => {
+      url.searchParams.delete("sortKey");
+      url.searchParams.delete("sortValue");
+      window.location.href = url.href;
+   })
+
+   //Gán selected =true cho option chọn
+   const sortKey = url.searchParams.get("sortKey");
+   const sortValue = url.searchParams.get("sortValue");
+   if (sortKey && sortValue) {
+      const stringUrl = `${sortKey}-${sortValue}`;
+      const optionSelected = sortSelect.querySelector(`option[value=${stringUrl}]`);
+      optionSelected.selected = true;
+   }
+}
+//End Sort product
