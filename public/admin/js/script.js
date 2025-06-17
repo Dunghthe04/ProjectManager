@@ -230,4 +230,4 @@ if (sortPart) {
       optionSelected.selected = true;
    }
 }
-//End Sort product
+// End Sort product

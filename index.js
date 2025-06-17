@@ -1,4 +1,5 @@
 const express = require("express")
+var path = require('path');
 const database=require("./config/database")
 
 const systemConfig=require("./config/system")
@@ -14,6 +15,7 @@ require('dotenv').config()
 database.connect();
 
 const app = express()
+
 const port = process.env.PORT;
 app.use(methodOverride('_method'))
 const bodyParser = require('body-parser')
@@ -30,6 +32,9 @@ app.set("view engine","pug");
 app.use(cookieParser('XYYDGDBSDS'));
 app.use(session({ cookie: { maxAge: 60000 }}));
 app.use(flash());
+
+//tinyMce
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 
 //applocal
 app.locals.prefixAdmin=systemConfig.prefixAdmin;

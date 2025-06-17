@@ -8,7 +8,6 @@ const validate = require('../../validate/createProduct');
 const upload = multer(); // thư mục lưu ảnh khi upload lên, multer thì phải thêm cả public
 const uploadClound=require('../../middleware/admin/uploadsClound.middelware')
 
-
 router.get("/", controller.index)
 router.patch("/change-status/:status/:id", controller.changeStatus);
 router.patch("/change-multi", controller.changeMulti)

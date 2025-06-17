@@ -34,12 +34,11 @@ module.exports.index = async (req, res) => {
     const objectPagination = paginationHelper(
         pagination, req.query, countProducts
     );
-    const sort = {}
+    
+    const sort={}
     const sortKey=req.query.sortKey;
     const sortValue=req.query.sortValue;
-    console.log(sortKey);
-    console.log(sortValue);
-    
+
     
     if (sortKey && sortValue) {
         //nếu ng dùng có sắp xếp-> sắp xếp theo ng dùng ,  dùng [] để nó hiểu là lấy giá trị trong [] là key của sort

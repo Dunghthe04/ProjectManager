@@ -1,17 +1,17 @@
 const cloudinary = require('cloudinary').v2
 const streamifier = require('streamifier')
-require('dotenv').config();
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
     api_key: process.env.API_KEY,
-    api_secret: process.env.API_SECRET,
+    api_secret: process.env.API_SECRET
 });
-
 module.exports.uploadClound = (req, res, next) => {
     //nếu ng dùng có chọn file
     if (req.file) {
+        //hàm đẩy ảnh lên coundinary
         let streamUpload = (req) => {
             return new Promise((resolve, reject) => {
+                //pthuc upload file lên cound
                 let stream = cloudinary.uploader.upload_stream(
                     (error, result) => {
                         if (result) {
@@ -27,11 +27,12 @@ module.exports.uploadClound = (req, res, next) => {
         };
 
         async function upload(req) {
-            let result = await streamUpload(req); // nó trả về dữ liệu url online
+            //đợi upload xong -> trả về dữ liệu thông tin file upload
+            let result = await streamUpload(req);
             //Thay vì gán url cho thumbnail ở controller, gán luôn ở middelware lun
             req.body[req.file.fieldname] = result.url; //lấy ra name của ô input file trong html -> lấy như này bao quất hơn , vd nếu name trong input là img -> req.body.img=url online ảnh
             console.log(result);
-            next(); // gán data vào biến thumbnail xong ->next sang controller để lưu vào database
+            next(); // gán data vào biến thumbnail xong ->next sang middelware tiếp theo
         }
         upload(req);
 

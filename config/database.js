@@ -1,4 +1,6 @@
+require('dotenv').config();
 const mongoose = require("mongoose");
+
 
 // Hàm ktra xem kết nối thành công hay thất bại
 //chờ kết nối ==> dùng asyn await
