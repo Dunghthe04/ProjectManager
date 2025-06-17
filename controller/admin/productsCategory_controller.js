@@ -26,6 +26,8 @@ module.exports.createPost = async (req, res) => {
     }else{
         req.body.position=parseInt(req.body.position);
     }
+    console.log(req.body);
+    
     const records= new ProductsCategory(req.body);
     await records.save();
     res.redirect(`${systemConfig.prefixAdmin}/products-category`);
