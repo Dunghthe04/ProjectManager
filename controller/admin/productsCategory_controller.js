@@ -32,3 +32,23 @@ module.exports.createPost = async (req, res) => {
     await records.save();
     res.redirect(`${systemConfig.prefixAdmin}/products-category`);
 }
+
+//[GET] /admin/products-category/detail/id
+module.exports.detail=async(req,res)=>{
+    try {
+        const find={
+            deleted: false,
+            slug: req.params.slug
+        }
+        const record=await ProductsCategory.findOne(find)
+        console.log(record);
+        
+        res.render("admin/pages/products-category/detail.pug",{
+            pageTitle: "Trang danh mục sản phẩm",
+            record: record
+        })
+    } catch (error) {
+        res.redirect(req.get('referer'));
+        req.flash("error",`Không tìm thấy mục sản phẩm  ${req.params.slug}`)
+    }
+}

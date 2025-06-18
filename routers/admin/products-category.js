@@ -13,5 +13,5 @@ router.post("/create",upload.single('thumbnail'),
     uploadClound.uploadClound,
     validate.createPost,
     controller.createPost)
-
+router.get("/detail/:slug",controller.detail);
 module.exports = router;
