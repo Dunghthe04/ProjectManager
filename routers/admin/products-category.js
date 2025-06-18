@@ -14,4 +14,10 @@ router.post("/create",upload.single('thumbnail'),
     validate.createPost,
     controller.createPost)
 router.get("/detail/:slug",controller.detail);
+router.get("/edit/:id",controller.edit);
+router.patch("/edit/:id",
+    upload.single('thumbnail'),
+    uploadClound.uploadClound,
+    // validate.createPost,
+    controller.editPatch);
 module.exports = router;

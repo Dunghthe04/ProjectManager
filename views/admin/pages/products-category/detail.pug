@@ -2,6 +2,8 @@ extends ../../layout/default.pug
 block main
    if(record.title)
      h2(class="mb-4") #{record.title}
+   if(record.parrent_id)
+     h2(class="mb-4") #{record.parrent_id} 
    if(record.thumbnail)
      div(class="mb-4")
         img(

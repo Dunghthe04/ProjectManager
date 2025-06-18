@@ -1,0 +1,48 @@
+extends ../../layout/default.pug
+include ../../mixins/alert.pug
+block main  
+  +alert-error(5000)
+  +alert-success(5000)
+  h1(class="mb-4") Chỉnh sửa sản phẩm
+  form(action=`${prefixAdmin}/products-category/edit/${record.id}?_method=PATCH` method="POST" enctype="multipart/form-data")
+    .form-group
+      label(for="title") Tiêu đề
+      input(id="title" type="text" name="title" value=record.title class="form-control" placeholder="Nhập tiêu đề")
+    .form-group
+      label(for="title") Danh mục cha
+      input(id="title" type="text" name="parrent_id" value=record.parrent_id class="form-control" placeholder="Danh mục cha")  
+    .form-group
+      label(for="description") Mô tả
+      textarea(id="description" name="description" class="form-control tinymce" placeholder="Nhập mô tả") #{record.description}
+    .form-group(upload-image='')
+          label(for="thumbnail") Ảnh
+          input(id='thumbnail' 
+                name="thumbnail"
+                type="file" 
+                class="form-control-file" 
+                placeholder="Nhập đường dẫn ảnh" 
+                accept="image/*"
+                upload-image-input)
+          .box-button()
+            img(
+              src=record.thumbnail
+              upload-image-preview=''
+              class="image-preview"
+            ) 
+            span(class="closeBtn") x 
+               
+    .form-group 
+      label(for="position") Vị trí
+      input(id='position' name="position" type="text" value=record.position  class="form-control" )
+    .form-group 
+      .row.col-5
+        .col-6 
+          .form-check 
+            input(class="form-check-input" claas="form-control" checked=(record.status==="active"?true:false)   type="radio" name="status" id="status" value="active")
+            label(class="form-check-label" for="radio" ) Hoạt động
+        .col-6 
+          .form-check 
+            input(class="form-check-input" claas="form-control" checked=(record.status==="inactive"?true:false) type="radio" name="status" id="status" value="inactive")
+            label(class="form-check-label" for="radio") Dừng hoạt động
+    button(type="submit" class="btn btn-primary") Chỉnh sửa
+  script(src="/admin/js/product.js")
