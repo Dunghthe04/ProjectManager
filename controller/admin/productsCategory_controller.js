@@ -88,3 +88,14 @@ module.exports.editPatch = async (req, res) => {
     }
     res.redirect(`${systemConfig.prefixAdmin}/products-category`)
 }
+
+//[DELETE] /admin/products-category/delete/id
+module.exports.delete=async(req,res)=>{
+    const id=req.params.id;
+
+    await ProductsCategory.updateOne({_id: id},{
+        deleted: true,
+        deletedTime : new Date()
+    })
+    res.redirect(req.get('referer'));
+}

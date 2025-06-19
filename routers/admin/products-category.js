@@ -20,4 +20,5 @@ router.patch("/edit/:id",
     uploadClound.uploadClound,
     // validate.createPost,
     controller.editPatch);
+router.delete("/delete/:id",controller.delete);    
 module.exports = router;

@@ -74,9 +74,15 @@ block main
                       class="btn btn-warning btn-sm"
                     ) Sửa
                     button(
-                    class="btn btn-danger btn-sm ml-1"
-                    data-id=item.id 
-                    delete-item
-                    ) Xóa     
-
+                      class="btn btn-danger btn-sm ml-1"
+                      data-id=item.id 
+                      delete-item-category
+                    ) Xóa
+    
+  form(
+    action=""
+    method="POST"
+    id="form-delete-item"
+    data-path=`${prefixAdmin}/products-category/delete`
+  )
   script(src="/admin/js/product.js")
