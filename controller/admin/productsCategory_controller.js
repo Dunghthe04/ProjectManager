@@ -1,5 +1,6 @@
 const ProductsCategory = require('../../models/product-category.js');
 const systemConfig = require("../../config/system.js");
+const createTreeHelper=require("../../helpers/create_Tree.js")
 
 // [GET] /admin/products-category
 module.exports.index = async (req, res) => {
@@ -7,15 +8,31 @@ module.exports.index = async (req, res) => {
         deleted: false
     }
 
+    
+
     const records = await ProductsCategory.find(find)
+    const newRecords = createTreeHelper.tree(records);
+    console.log(newRecords);
+    
     res.render("admin/pages/products-category/index.pug", {
         pageTitle: "Danh mục sản phẩm",
-        records: records
+        records: newRecords
     })
 }
 // [GET] /admin/create
-module.exports.create = (req, res) => {
-    res.render("admin/pages/products-category/create.pug")
+module.exports.create = async (req, res) => {
+    const find = {
+        deleted: false
+    }
+
+    
+
+    const records = await ProductsCategory.find(find)
+    const newRecords = createTreeHelper.tree(records);
+
+    res.render("admin/pages/products-category/create.pug", {
+        records: newRecords
+    })
 }
 
 // [POST] /admin/create
@@ -90,12 +107,14 @@ module.exports.editPatch = async (req, res) => {
 }
 
 //[DELETE] /admin/products-category/delete/id
-module.exports.delete=async(req,res)=>{
-    const id=req.params.id;
+module.exports.delete = async (req, res) => {
+    const id = req.params.id;
 
-    await ProductsCategory.updateOne({_id: id},{
+    await ProductsCategory.updateOne({
+        _id: id
+    }, {
         deleted: true,
-        deletedTime : new Date()
+        deletedTime: new Date()
     })
     res.redirect(req.get('referer'));
 }
