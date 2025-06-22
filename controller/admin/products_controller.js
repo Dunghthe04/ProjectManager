@@ -30,7 +30,8 @@ module.exports.index = async (req, res) => {
     }
 
     const countProducts = await Products.countDocuments(find); // đếm số lg sản phẩm theo bộ lọc
-    //mục đích truyền vào object, tính toán rồi thêm các key totalPage vào obecjt rồi trả về
+    //mục đích truyền vào object, tính toán rồi thêm các key totalPage vào  chính object truyền vào đó rồi trả về
+    //xíu trả về vẫn là object pagination , nhưng thêm 1 số key
     const objectPagination = paginationHelper(
         pagination, req.query, countProducts
     );
@@ -48,6 +49,9 @@ module.exports.index = async (req, res) => {
         sort.position = "desc";
     }
 
+    let startIndex=((objectPagination.currentPage-1)*objectPagination.limit+1);
+    console.log(startIndex);
+    
 
     const Product = await Products.find(find).sort(sort).limit(pagination.limit).skip(pagination.skip)
     res.render("admin/pages/products/index", {
@@ -55,7 +59,8 @@ module.exports.index = async (req, res) => {
         products: Product,
         filterStatus: filterStatus,
         keyword: objectSearch.keyword,
-        pagination: objectPagination
+        pagination: objectPagination,
+        startIndex: startIndex
     });
 
 
