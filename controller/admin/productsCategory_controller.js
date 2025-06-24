@@ -8,8 +8,6 @@ module.exports.index = async (req, res) => {
         deleted: false
     }
 
-    
-
     const records = await ProductsCategory.find(find)
     const newRecords = createTreeHelper.tree(records);
     
@@ -67,18 +65,23 @@ module.exports.detail = async (req, res) => {
 // [GET] /admin/products-category/edit/id
 module.exports.edit = async (req, res) => {
     try {
+        const id=req.params.id;
         const find = {
             deleted: false,
-            _id: req.params.id
+            _id: id
         }
         const record = await ProductsCategory.findOne(find)
 
+        const recordAll=await ProductsCategory.find({deleted: false});
+        const recordTreeCategory= createTreeHelper.tree(recordAll);
+
         res.render("admin/pages/products-category/edit.pug", {
             pageTitle: "Cập nhập",
-            record: record
+            record: record,
+            recordTreeCategory: recordTreeCategory
         })
     } catch (error) {
-        res.redirect(req.get('referer'));
+        res.redirect(`${systemConfig.prefixAdmin}/products-category`)
         req.flash("error", `Không tìm thấy sản phẩm id= ${req.params.id}`);
     }
 }

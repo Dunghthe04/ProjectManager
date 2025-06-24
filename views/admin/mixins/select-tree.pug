@@ -1,11 +1,11 @@
-mixin select-tree(items,level=1)
+mixin select-tree(items,level=1,parrent_id="")
    each item in items
       //-Array(2)-> mảng 2 ptu rỗng rồi join lại với nhau -- ==> --
       //-Array(3)==> mảng 3 ptu rỗng -> 2 ngăn cách ----
       - const prefixLevel = Array(level + 1).join("-- ");
-      option(value=item.id) #{prefixLevel}#{item.title}
+      option(value=item.id selected=(item.id == parrent_id ? true: false)) #{prefixLevel}#{item.title}
       //-nếu ptu gốc có children -> ném ptu đó vào để duyệt và in ptu con trong mảng đó đó
       if item.children && item.children.length>0
-        +select-tree(item.children,level+1)
+        +select-tree(item.children,level+1,parrent_id)
 
         
