@@ -7,4 +7,5 @@ mixin select-tree(items,level=1)
       //-nếu ptu gốc có children -> ném ptu đó vào để duyệt và in ptu con trong mảng đó đó
       if item.children && item.children.length>0
         +select-tree(item.children,level+1)
+
         
