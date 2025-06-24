@@ -4,6 +4,8 @@ const objectHelper = require("../../helpers/searchForm.js")
 const paginationHelper = require("../../helpers/pagination.js");
 const Product = require('../../models/product.model');
 const systemConfig = require("../../config/system.js");
+const ProductCategory=require("../../models/product-category.js")
+const treeHelper=require('../../helpers/create_Tree.js')
 // [GET] /admin/products
 module.exports.index = async (req, res) => {
 
@@ -159,8 +161,17 @@ module.exports.delete = async (req, res) => {
     })
     res.redirect(req.get('referer'));
 }
-module.exports.create = (req, res) => {
-    res.render("admin/pages/products/create.pug");
+module.exports.create = async(req, res) => {
+    const find={
+        deleted: false
+    }
+    const record=await ProductCategory.find(find);
+    const recordCategory=treeHelper.tree(record);
+    console.log(recordCategory);
+    
+    res.render("admin/pages/products/create.pug",{
+        recordCategory: recordCategory
+    });
 }
 module.exports.createPost = async (req, res) => {
     req.body.price = parseInt(req.body.price);
@@ -193,9 +204,11 @@ module.exports.edit = async (req, res) => {
             _id: req.params.id
         }
         const product = await Products.findOne(find);
+        const productCategory= await ProductCategory.find({deleted: false})
         res.render("admin/pages/products/edit.pug", {
             pageTitle: "Chỉnh sửa sản phẩm",
-            product: product
+            product: product,
+            productCategory: productCategory
         })
     } catch (error) {
         res.redirect(req.get('referer'));
