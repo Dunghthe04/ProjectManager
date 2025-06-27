@@ -1,0 +1,10 @@
+extends ../../layout/default.pug
+block main
+  if(record.title)
+    h2(class="mb-4") <span>Tên vai trò:</span>  #{record.title}
+  if(record.description)
+    h2(class="mb-4") <span>Mô tả ngắn:</span> !{record.description}
+  a(
+      href=`${prefixAdmin}/roles/edit/${record.id}`
+      class="btn btn-warning btn-sm"
+      ) Sửa      

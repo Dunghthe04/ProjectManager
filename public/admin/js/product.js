@@ -59,3 +59,21 @@ if (buttonDeleteCategory.length > 0) {
         })
     })
 }
+
+//delete-role-item
+const buttonDeleteRole = document.querySelectorAll("[delete-item-role]");
+if (buttonDeleteRole.length > 0) {
+    const form = document.querySelector("#delete-role-item");
+     const dataPath = form.getAttribute("data-path");
+    buttonDeleteRole.forEach(button => {
+        button.addEventListener("click", () => {
+            const buttonId=button.getAttribute("data-id");
+            const check = confirm(`Bạn có chắc chắn muốn xóa Danh mục sản phẩm có id = ${buttonId}`);
+            if(check){
+                const action=`${dataPath}/${buttonId}?_method=DELETE`;
+                form.action=action;
+                form.submit();
+            }
+        })
+    })
+}
