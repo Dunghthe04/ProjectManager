@@ -41,20 +41,20 @@ if (table) {
     })
 }
 
-//xử lý checkbox permission
+// xử lý checkbox permission
 const dataRecord = document.querySelector("[data-record]");
 if (dataRecord) {
-   const data=dataRecord.getAttribute("data-record");
-   const RecorData=JSON.parse(data);
-   const table = document.querySelector("[table-permission]");
-   //duyệt từng record , (duyệt từng ptu mảng permission)
-   RecorData.forEach((RecorData,index)=>{
-      const permission=RecorData.permission;
-      //duyệt từng mảng permission ptu
-      permission.forEach(permission=>{
-        const row=table.querySelector(`[data-name="${permission}"]`);
-        const input=row.querySelectorAll("input")[index];
-        input.checked=true
-      })      
-   })      
+    const data = dataRecord.getAttribute("data-record");
+    const RecorData = JSON.parse(data);
+    const table = document.querySelector("[table-permission]");
+    //duyệt từng record , (duyệt từng ptu mảng permission)
+    RecorData.forEach((RecorData, index) => {
+        const permission = RecorData.permission;
+        //duyệt từng mảng permission ptu
+        permission.forEach(permission => {
+            const row = table.querySelector(`[data-name="${permission}"]`);// lấy ra các dòng mà có tên nằm trong permission
+            const input = row.querySelectorAll("input")[index];
+            input.checked = true
+        })
+    })
 }

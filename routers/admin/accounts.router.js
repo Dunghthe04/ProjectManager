@@ -1,0 +1,16 @@
+const express = require("express");
+const router = express.Router();
+const controller = require("../../controller/admin/accounts_controller");
+const multer = require('multer');
+const validate = require('../../validate/admin/accounts.validate');
+const upload = multer();
+const uploadClound = require('../../middleware/admin/uploadsClound.middelware')
+
+router.get("/", controller.index);
+router.get("/create", controller.create);
+router.post("/create",
+    upload.single('avatar'),
+    uploadClound.uploadClound,
+    validate.createAccount,
+    controller.createAccount);
+module.exports = router;

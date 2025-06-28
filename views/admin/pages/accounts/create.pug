@@ -1,0 +1,53 @@
+extends ../../layout/default.pug
+include ../../mixins/alert.pug
+include ../../mixins/select-tree.pug
+block main  
+  +alert-error(5000)
+  h1(class="mb-4") Thêm tài khoản
+  form(action=`${prefixAdmin}/accounts/create` method="POST" enctype="multipart/form-data")
+    .form-group
+      label(for="fullName") Họ tên *
+      input(id="fullName" type="text" name="fullName" class="form-control" value=(oldValue && oldValue.fullName ? oldValue.fullName : "")  placeholder="Nhập họ tên")
+    .form-group
+      label(for="email") Email*
+      input(id="email" type="email" name="email" class="form-control" value=(oldValue && oldValue.email ? oldValue.email : "") placeholder="Nhập email")
+    .form-group
+      label(for="password") Mật khẩu *
+      input(id="password" type="password" name="password" class="form-control" value=(oldValue && oldValue.password ? oldValue.fullName : "") placeholder="Nhập mật khẩu") 
+    .form-group 
+      label(for="phone") Số điện thoại
+      input(id='phone' name="phone" type="text" class="form-control" value=(oldValue && oldValue.phone ? oldValue.phone : "") placeholder="Nhập số điện thoại")
+    .form-group(upload-image='')
+          label(for="avatar") Avatar
+          input(id='avatar' 
+                name="avatar"
+                type="file" 
+                class="form-control-file" 
+                placeholder="Nhập đường dẫn ảnh" 
+                accept="image/*"
+                upload-image-input)
+          .box-button()
+            img(
+            src=(oldValue && oldValue.avatar ? oldValue.avatar : "")
+            upload-image-preview=''
+            class="image-preview"
+            ) 
+            span(class="closeBtn") x    
+    .form-group 
+      label(for="role_id") Phân quyền
+      select(name="role_id" id="role_id" class="form-control")
+        option(disabled) --Chọn--
+        each item in record 
+          option(value=item.id  selected=(oldValue && oldValue.role_id ? oldValue.role_id==item.id? true:false : "")) #{item.title}
+    .form-group 
+      .row.col-5
+        .col-6 
+          .form-check 
+            input(class="form-check-input" claas="form-control" checked=( !oldValue || !oldValue.status || oldValue.status == "active" ) type="radio" name="status" id="status" value="active")
+            label(class="form-check-label" for="radio" ) Hoạt động
+        .col-6 
+          .form-check 
+            input(class="form-check-input" claas="form-control" type="radio" checked=( oldValue && oldValue.status == "inactive" ) name="status" id="status" value="inactive")
+            label(class="form-check-label" for="radio") Dừng hoạt động
+    button(type="submit" class="btn btn-primary") Submit 
+  script(src="/admin/js/product.js")
