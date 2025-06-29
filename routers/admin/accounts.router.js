@@ -13,4 +13,10 @@ router.post("/create",
     uploadClound.uploadClound,
     validate.createAccount,
     controller.createAccount);
+router.get("/edit/:id",controller.edit); 
+router.patch("/edit/:id",
+    upload.single('avatar'),
+    uploadClound.uploadClound,
+    validate.editPatch,
+    controller.editPatch);  
 module.exports = router;
