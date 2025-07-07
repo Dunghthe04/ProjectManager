@@ -2,54 +2,56 @@ extends ../../layout/default.pug
 include ../../mixins/alert.pug
 include ../../mixins/select-tree.pug
 block main  
-  +alert-error(5000)
-  h1(class="mb-4") Thêm mới sản phẩm
-  form(action=`${prefixAdmin}/products-category/create` method="POST" enctype="multipart/form-data")
-    .form-group
-      label(for="title") Tiêu đề
-      input(id="title" type="text" name="title" class="form-control" require placeholder="Nhập tiêu đề")
-    .form-group
-      label(for="parrent_id") Danh mục cha
-      //- input(id="parrent_id" type="text" name="parrent_id" class="form-control" placeholder="Nhập danh mục cha") 
-      select(
-        name="parrent_id"
-        id="parrent_id"
-        class="form-control"
-      )
-        option(value="") --Chọn danh mục cha 
-        if(records)
-           +select-tree(records)
-    .form-group
-      label(for="description") Mô tả
-      textarea(id="description" name="description" class="form-control tinymce" placeholder="Nhập mô tả")  
-    .form-group(upload-image='')
-          label(for="thumbnail") Ảnh
-          input(id='thumbnail' 
-                name="thumbnail"
-                type="file" 
-                class="form-control-file" 
-                placeholder="Nhập đường dẫn ảnh" 
-                accept="image/*"
-                upload-image-input)
-          .box-button()
-            img(
-            src=""
-            upload-image-preview=''
-            class="image-preview"
-            ) 
-            span(class="closeBtn") x    
-    .form-group 
-      label(for="position") Vị trí
-      input(id='position' name="position" type="text" class="form-control" placeholder="Nhập đường dẫn ảnh")
-    .form-group 
-      .row.col-5
-        .col-6 
-          .form-check 
-            input(class="form-check-input" claas="form-control" checked  type="radio" name="status" id="status" value="active")
-            label(class="form-check-label" for="radio" ) Hoạt động
-        .col-6 
-          .form-check 
-            input(class="form-check-input" claas="form-control" type="radio" name="status" id="status" value="inactive")
-            label(class="form-check-label" for="radio") Dừng hoạt động
-    button(type="submit" class="btn btn-primary") Submit 
-  script(src="/admin/js/product.js")
+  //-nếu có quyền thêm -> hiển thị
+  if(role.permission.includes("products-category_add"))  
+    +alert-error(5000)
+    h1(class="mb-4") Thêm mới sản phẩm
+    form(action=`${prefixAdmin}/products-category/create` method="POST" enctype="multipart/form-data")
+      .form-group
+        label(for="title") Tiêu đề
+        input(id="title" type="text" name="title" class="form-control" require placeholder="Nhập tiêu đề")
+      .form-group
+        label(for="parrent_id") Danh mục cha
+        //- input(id="parrent_id" type="text" name="parrent_id" class="form-control" placeholder="Nhập danh mục cha") 
+        select(
+          name="parrent_id"
+          id="parrent_id"
+          class="form-control"
+        )
+          option(value="") --Chọn danh mục cha 
+          if(records)
+            +select-tree(records)
+      .form-group
+        label(for="description") Mô tả
+        textarea(id="description" name="description" class="form-control tinymce" placeholder="Nhập mô tả")  
+      .form-group(upload-image='')
+            label(for="thumbnail") Ảnh
+            input(id='thumbnail' 
+                  name="thumbnail"
+                  type="file" 
+                  class="form-control-file" 
+                  placeholder="Nhập đường dẫn ảnh" 
+                  accept="image/*"
+                  upload-image-input)
+            .box-button()
+              img(
+              src=""
+              upload-image-preview=''
+              class="image-preview"
+              ) 
+              span(class="closeBtn") x    
+      .form-group 
+        label(for="position") Vị trí
+        input(id='position' name="position" type="text" class="form-control" placeholder="Nhập đường dẫn ảnh")
+      .form-group 
+        .row.col-5
+          .col-6 
+            .form-check 
+              input(class="form-check-input" claas="form-control" checked  type="radio" name="status" id="status" value="active")
+              label(class="form-check-label" for="radio" ) Hoạt động
+          .col-6 
+            .form-check 
+              input(class="form-check-input" claas="form-control" type="radio" name="status" id="status" value="inactive")
+              label(class="form-check-label" for="radio") Dừng hoạt động
+      button(type="submit" class="btn btn-primary") Submit 
+    script(src="/admin/js/product.js")

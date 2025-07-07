@@ -1,40 +1,44 @@
 extends ../../layout/default.pug
 include ../../mixins/table-tree.pug
 block main 
-  h1 #{pageTitle}
-  
-  .card.mb-3
-    .card-header Danh sách
-    .card-body
-        .row
-          .col-9
-          .col-3
-            a(
-              href=`${prefixAdmin}/products-category/create`
-              class="btn btn-outline-success"
-              create-item
-            ) Create New Product 
-        table(
-          class="table table-hover table-sm"
-          check-box-multi
-          )
-          thead 
-           tr 
-            th  
-              input(type="checkbox" name="checkall")   
-            th STT 
-            th Hình ảnh 
-            th Tiêu đề
-            th Vị trí
-            th Trạng thái 
-            th Hành động
-          tbody
-            +table-tree(records)
+  //-check từng trang -> nếu có quyền gì -> mới hiển thị phần đó
+  if(role.permission.includes("products-category_view"))  
+    h1 #{pageTitle}
     
-  form(
-    action=""
-    method="POST"
-    id="form-delete-item"
-    data-path=`${prefixAdmin}/products-category/delete`
-  )
-  script(src="/admin/js/product.js")
+    .card.mb-3
+      .card-header Danh sách
+      .card-body
+          .row
+            .col-9
+            .col-3
+              //-nếu có quyền thêm -> hiển thị ở màn, (nếu có đường dẫn vẫn vô đc -> check cả bên trang í)
+              if(role.permission.includes("products-category_add"))  
+                a(
+                  href=`${prefixAdmin}/products-category/create`
+                  class="btn btn-outline-success"
+                  create-item
+                ) Create New Product 
+          table(
+            class="table table-hover table-sm"
+            check-box-multi
+            )
+            thead 
+            tr 
+              th  
+                input(type="checkbox" name="checkall")   
+              th STT 
+              th Hình ảnh 
+              th Tiêu đề
+              th Vị trí
+              th Trạng thái 
+              th Hành động
+            tbody
+              +table-tree(records)
+      
+    form(
+      action=""
+      method="POST"
+      id="form-delete-item"
+      data-path=`${prefixAdmin}/products-category/delete`
+    )
+    script(src="/admin/js/product.js")

@@ -81,7 +81,7 @@ module.exports.edit = async (req, res) => {
         res.render("admin/pages/accounts/edit.pug", {
             pageTitle: "Chỉnh sửa tài khoản",
             account: account,
-            role: role
+            roles: role
         })
     } catch (error) {
         res.redirect(`${systemConfig.prefixAdmin}/accounts`);
