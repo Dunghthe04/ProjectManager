@@ -1,8 +1,10 @@
 extends ../../layout/default.pug
+include ../../mixins/alert.pug
 block main 
-  h1 #{pageTitle}
+  +alert-success(5000)
+  h1 Trang danh sách tài khoản
   .card.mb-3
-    .card-header Quản lý tài khoản
+    .card-header Danh sách
     .card-body
         .row
           .col-9
@@ -11,7 +13,7 @@ block main
               href=`${prefixAdmin}/accounts/create`
               class="btn btn-outline-success"
               create-item
-            ) Create New Account 
+            ) Create New Account  
         table(
           class="table table-hover table-sm"
           check-box-multi
@@ -19,7 +21,7 @@ block main
           thead 
            tr 
             th STT 
-            th Avatar
+            th Avatar 
             th Họ tên
             th Phân quyền
             th Email
@@ -52,7 +54,7 @@ block main
                       class="badge badge-danger") Ngưng hoạt động
                 td 
                     a(
-                      href=`${prefixAdmin}/products/detail/${item.id}`
+                      href=`${prefixAdmin}/accounts/detail/${item.id}`
                       class="btn btn-primary btn-sm" style="margin-right:10px"
                     ) Chi tiết
                     a(
@@ -63,6 +65,5 @@ block main
                     class="btn btn-danger btn-sm ml-1"
                     data-id=item.id 
                     delete-item
-                    ) Xóa   
-         
-  script(src="/admin/js/product.js")
+                    ) Xóa    
+        

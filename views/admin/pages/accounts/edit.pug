@@ -3,20 +3,20 @@ include ../../mixins/alert.pug
 block main  
   +alert-error(5000)
   +alert-success(5000)
-  h1(class="mb-4") Chỉnh sửa tài khoản
-  form(action=`${prefixAdmin}/accounts/edit/${account.id}?_method=PATCH` method="POST" enctype="multipart/form-data")
+  h1(class="mb-4") Thêm mới tài khoản
+  form(action=`${prefixAdmin}/accounts/edit/${account.id}?_method=PATCH`  method="POST" enctype="multipart/form-data")
     .form-group
       label(for="fullName") Họ tên *
-      input(id="fullName" type="text" name="fullName" class="form-control" value=account.fullName  placeholder="Nhập họ tên")
+      input(id="fullName" type="text" name="fullName" value=account.fullName class="form-control" require placeholder="Nhập tên")
     .form-group
-      label(for="email") Email*
-      input(id="email" type="email" name="email" class="form-control" value=account.email placeholder="Nhập email")
+      label(for="email") Email *
+      input(id="email" type="text" name="email" class="form-control" value=account.email require placeholder="Nhập email")
     .form-group
       label(for="password") Mật khẩu *
-      input(id="password" type="password" name="password" class="form-control" value=account.password placeholder="Nhập mật khẩu") 
-    .form-group 
-      label(for="phone") Số điện thoại
-      input(id='phone' name="phone" type="text" class="form-control" value=account.phone placeholder="Nhập số điện thoại")
+      input(id="password" type="password" name="password" class="form-control" value=account.password require placeholder="Nhập mật khẩu")
+    .form-group
+      label(for="phone") Số điện thoại *
+      input(id="phone" type="text" name="phone" class="form-control" value=account.phone require placeholder="Nhập số điện thoại")
     .form-group(upload-image='')
           label(for="avatar") Avatar
           input(id='avatar' 
@@ -36,20 +36,17 @@ block main
     .form-group 
       label(for="role_id") Phân quyền
       select(name="role_id" id="role_id" class="form-control")
-        option(disabled) --Chọn--
-        each item in role 
-          option(value=item.id  selected=(item.id==account.role_id ?true: false)) #{item.title}
+        each item in role
+         option(value=item.id selected=(account.role_id == item.id)) #{item.title}
     .form-group 
-      .row.col-5
-        .form-group 
       .row.col-5
         .col-6 
           .form-check 
-            input(class="form-check-input" claas="form-control" checked=(account.status==="active"?true:false)   type="radio" name="status" id="status" value="active")
+            input(class="form-check-input" claas="form-control" checked=account.status=="active"?true:false   type="radio" name="status" id="status" value="active")
             label(class="form-check-label" for="radio" ) Hoạt động
         .col-6 
           .form-check 
-            input(class="form-check-input" claas="form-control" checked=(account.status==="inactive"?true:false) type="radio" name="status" id="status" value="inactive")
+            input(class="form-check-input" claas="form-control" type="radio" checked=account.status=="inactive"?true:false  name="status" id="status" value="inactive")
             label(class="form-check-label" for="radio") Dừng hoạt động
-    button(type="submit" class="btn btn-primary") Submit 
+    button(type="submit" class="btn btn-primary") Cập nhập
   script(src="/admin/js/product.js")

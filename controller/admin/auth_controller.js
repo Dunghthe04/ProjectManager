@@ -1,8 +1,15 @@
-const { prefixAdmin } = require("../../config/system");
+const {
+    prefixAdmin
+} = require("../../config/system");
 const Account = require("../../models/account.model")
 var md5 = require('md5');
+//nếu ng đăng đăng nhập r , vô tình truy cập login -> chuyển ngta dashboard chứ kbat đăng nhap
 module.exports.login = (req, res) => {
-    res.render("admin/pages/auth/login.pug");
+    if (req.cookies.token) {
+        res.redirect(`${prefixAdmin}/dashboard`);
+    }else{
+        res.render("admin/pages/auth/login.pug");
+    }
 }
 
 module.exports.loginPost = async (req, res) => {
@@ -15,7 +22,7 @@ module.exports.loginPost = async (req, res) => {
     const user = await Account.findOne({
         email: email,
         deleted: false
-        
+
     })
     //nếu ko có user -> báo lỗi
     if (!user) {
@@ -31,17 +38,18 @@ module.exports.loginPost = async (req, res) => {
         return;
     }
     //nếu đúng tài khoản + mật khẩu -> check xem tài khoản đó có bị khóa hay k
-    if (user.status=="inactive") {
+    if (user.status == "inactive") {
         req.flash("error", "Tài khoản của bạn bị khóa");
         res.redirect(req.get('referer'));
         return;
     }
-    res.cookie("token",user.token);
+    res.cookie("token", user.token);
     res.redirect(`${prefixAdmin}/dashboard`);
 
 }
 
-module.exports.logout=(req,res)=>{
-    res.clearCookie("token")
+
+module.exports.logout = (req, res) => {
+    res.clearCookie("token");
     res.redirect(`${prefixAdmin}/auth/login`)
 }

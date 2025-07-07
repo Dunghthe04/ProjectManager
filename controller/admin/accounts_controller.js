@@ -24,6 +24,7 @@ module.exports.index = async (req, res) => {
     });
 }
 
+
 module.exports.create = async (req, res) => {
     const find = {
         deleted: false
@@ -34,6 +35,7 @@ module.exports.create = async (req, res) => {
         record: record
     });
 }
+
 
 module.exports.createAccount = async (req, res) => {
     //gửi lại dữ liệu nếu sai
@@ -65,6 +67,7 @@ module.exports.createAccount = async (req, res) => {
 
 }
 
+
 module.exports.edit = async (req, res) => {
     const find = {
         _id: req.params.id,
@@ -88,7 +91,6 @@ module.exports.edit = async (req, res) => {
 module.exports.editPatch = async (req, res) => {
     const id = req.params.id;
     //duyệt từng tài khoản ngoại trừ khoản có id đang xét,check xem email tồn tại chưa
-
     const account = await Account.findOne({
         _id: {
             $ne: id
@@ -98,6 +100,7 @@ module.exports.editPatch = async (req, res) => {
     });
     if (account) {
         req.flash("error", "Email đã tồn tại vui lòng sử dụng email khác");
+        res.redirect(req.get('referer'));
     } else {
         //nếu ng dùng nhập pass mới -> update, còn ko nhập -> ko cập nhập pass(xóa key khỏi object)
         if (req.body.password) {
@@ -109,8 +112,7 @@ module.exports.editPatch = async (req, res) => {
             _id: id
         }, req.body)
         req.flash("success", "Cập nhập thành công");
+        res.redirect(`${systemConfig.prefixAdmin}/accounts`)
     }
-    res.redirect(req.get('referer'));
-
-
+    
 }

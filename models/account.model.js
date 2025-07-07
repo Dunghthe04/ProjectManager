@@ -21,3 +21,4 @@ const schemaAccount= new mongoose.Schema({
 const ProductCategory = mongoose.model('Account', schemaAccount, "account")
 
 module.exports = ProductCategory;
+

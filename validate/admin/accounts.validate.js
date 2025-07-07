@@ -12,6 +12,7 @@ module.exports.createAccount = (req, res,next) => {
     next();// nếu dữ liệu ok => nextx sang controller để thêm 
 }
 
+
 //dành cho edit -> khi ngta k muốn nhập mk
 module.exports.editPatch=(req,res,next)=>{
     if (!req.body.fullName) {
@@ -26,3 +27,4 @@ module.exports.editPatch=(req,res,next)=>{
     }
     next();// nếu dữ liệu ok => nextx sang controller để thêm 
 }
+

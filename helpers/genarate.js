@@ -1,4 +1,4 @@
-//file này để tạp ra token random
+// //file này để tạp ra token random
 module.exports.genarateRandomString=(length)=>{
     const character=
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstwxyz0123456789";
@@ -8,3 +8,4 @@ module.exports.genarateRandomString=(length)=>{
     }
     return result;
 };
+
