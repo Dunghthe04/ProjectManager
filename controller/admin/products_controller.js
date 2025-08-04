@@ -6,6 +6,7 @@ const Product = require('../../models/product.model');
 const systemConfig = require("../../config/system.js");
 const ProductCategory=require("../../models/product-category.js")
 const treeHelper=require('../../helpers/create_Tree.js')
+const Account = require('../../models/account.model.js');
 // [GET] /admin/products
 module.exports.index = async (req, res) => {
 
@@ -56,6 +57,15 @@ module.exports.index = async (req, res) => {
     
 
     const Product = await Products.find(find).sort(sort).limit(pagination.limit).skip(pagination.skip)
+    for(const product of Product){
+        const user=await Account.findOne({
+            _id: product.createBy.account_id
+        });
+
+        if(user){
+            product.createdFullName=user.fullName;
+        }
+    }
     res.render("admin/pages/products/index", {
         pageTitle: "Danh sách sản phẩm",
         products: Product,
@@ -192,6 +202,9 @@ module.exports.createPost = async (req, res) => {
     }
     //phần ảnh xử lý bên middelware rồi
 
+    req.body.createBy={
+       account_id: res.locals.user.id
+    };
     const newProducts = new Product(req.body);
     await newProducts.save();
     res.redirect(`${systemConfig.prefixAdmin}/products`);

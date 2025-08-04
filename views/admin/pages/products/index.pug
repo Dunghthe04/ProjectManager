@@ -5,6 +5,7 @@ include ../../mixins/pagination.pug
 include ../../mixins/formChangeMulti.pug
 include ../../mixins/alert.pug
 include ../../mixins/sort.pug
+include ../../mixins/moment.pug
 block main 
   //- nếu có quyền view trang này -> hi
   if(role.permission.includes("products_view"))  
@@ -59,7 +60,8 @@ block main
               th Tiêu đề
               th Giá
               th Vị trí
-              th Trạng thái 
+              th Trạng thái
+              th Người tạo  
               th Hành động
             tbody
             each item ,index in products 
@@ -112,7 +114,11 @@ block main
                           data-status=item.status
                           data-id=item.id 
                           button-change-status
-                          class="badge badge-danger") Ngưng hoạt động     
+                          class="badge badge-danger") Ngưng hoạt động  
+                  td
+                     p #{item.createdFullName} 
+                     +formatDateTime(item.createBy.createAt)
+                     +formatLocal(item.createBy.createAt)
                   td 
                       a(
                         href=`${prefixAdmin}/products/detail/${item.id}`

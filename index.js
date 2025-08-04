@@ -7,6 +7,7 @@ const systemConfig=require("./config/system")
 const route=require("./routers/client/index.router");
 const routeAdmin=require("./routers/admin/index.router");
 var methodOverride = require('method-override')
+const moment=require('moment');
 require('dotenv').config()
 
 //nhúng file đó vào
@@ -38,7 +39,7 @@ app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce
 
 //applocal
 app.locals.prefixAdmin=systemConfig.prefixAdmin;
-
+app.locals.moment=moment;
 //file tĩnh
 app.use(express.static(`${__dirname}/public`));
 //Route (gọi hàm ==> thực hiện 2 route trong hàm đó)
