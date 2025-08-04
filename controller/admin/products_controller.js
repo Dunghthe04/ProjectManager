@@ -132,7 +132,11 @@ module.exports.changeMulti = async (req, res) => {
                     $in: ids
                 }
             }, {
-                deleted: true
+                deleted: true,
+                deletedBy:{
+                    account_id: res.locals.user.id,
+                    deletedAt: new Date()
+                }
             });
             req.flash('success', `Đã xóa ${ids.length} sản phẩm thành công`);
             break;
@@ -167,8 +171,13 @@ module.exports.delete = async (req, res) => {
         _id: id
     }, {
         deleted: true,
-        deletedTime: new Date()
+        // deletedTime: new Date()
+        deletedBy:{
+            account_id:res.locals.user.id,
+            deletedAt: new Date()
+        }
     })
+    req.flash("success","Xóa thành công");
     res.redirect(req.get('referer'));
 }
 module.exports.create = async(req, res) => {

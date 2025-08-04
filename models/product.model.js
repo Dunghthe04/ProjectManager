@@ -32,9 +32,14 @@ const schema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+
+    deletedBy:{
+       account_id: String,
+       deletedAt: Date
+    },
     
     status:String,
-    deletedTime:Date
+    // deletedTime:Date
 },{ timestamps: true })
 const Product = mongoose.model('Product', schema, "products")
 
